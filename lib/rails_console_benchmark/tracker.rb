@@ -30,11 +30,14 @@ module ConsoleBenchmark
       end
     end
 
-    {
+    result = {
       wall_time_ms: (wall_time * 1000).round(3),
       sql_queries: defined?(ActiveSupport::Notifications) ? sql_count : nil,
       allocated_memory: memory_report.total_allocated_memsize,
       retained_memory: memory_report.total_retained_memsize
     }
+
+    RailsConsoleBenchmark::Formatter.display(result)
+    result
   end
 end
