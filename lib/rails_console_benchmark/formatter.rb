@@ -7,30 +7,42 @@ module RailsConsoleBenchmark
   class Formatter
     def self.display(result)
       wall_times = result[:wall_times_ms]
-      single = wall_times.length == 1
+      headings, rows = wall_times.length == 1 ? single_result(result) : aggregate_result(result)
+      puts Terminal::Table.new(headings: headings, rows: rows)
+    end
 
-      if single
-        rows = [
-          ['Wall Time (ms)', wall_times.first],
-          ['SQL Queries', result[:sql_queries].nil? ? 'N/A' : result[:sql_queries].first],
-          ['Allocated Memory', format_bytes(result[:allocated_memory])],
-          ['Retained Memory', format_bytes(result[:retained_memory])]
-        ]
+    def self.single_result(result)
+      rows = [
+        ['Wall Time (ms)', result[:wall_times_ms].first],
+        sql_row(result[:sql_queries], single: true),
+        ['Allocated Memory', format_bytes(result[:allocated_memory])],
+        ['Retained Memory', format_bytes(result[:retained_memory])]
+      ]
+      [%w[Metric Value], rows]
+    end
+    private_class_method :single_result
 
-        puts Terminal::Table.new(headings: %w[Metric Value], rows: rows)
+    def self.aggregate_result(result)
+      rows = [
+        aggregate_row('Wall Time (ms)', result[:wall_times_ms]),
+        sql_row(result[:sql_queries]),
+        memory_row('Allocated Memory', result[:allocated_memory]),
+        memory_row('Retained Memory', result[:retained_memory])
+      ]
+      [%w[Metric Min Max Mean Total], rows]
+    end
+    private_class_method :aggregate_result
+
+    def self.sql_row(sql_queries, single: false)
+      if sql_queries.nil?
+        single ? ['SQL Queries', 'N/A'] : ['SQL Queries', *(['N/A'] * 4)]
+      elsif single
+        ['SQL Queries', sql_queries.first]
       else
-        sql = result[:sql_queries]
-
-        rows = [
-          aggregate_row('Wall Time (ms)', wall_times),
-          sql.nil? ? ['SQL Queries', 'N/A', 'N/A', 'N/A', 'N/A'] : aggregate_row('SQL Queries', sql),
-          memory_row('Allocated Memory', result[:allocated_memory]),
-          memory_row('Retained Memory', result[:retained_memory])
-        ]
-
-        puts Terminal::Table.new(headings: %w[Metric Min Max Mean Total], rows: rows)
+        aggregate_row('SQL Queries', sql_queries)
       end
     end
+    private_class_method :sql_row
 
     def self.aggregate_row(label, values)
       total = values.sum
@@ -46,7 +58,7 @@ module RailsConsoleBenchmark
 
     def self.memory_row(label, bytes)
       formatted = format_bytes(bytes)
-      [label, formatted, formatted, formatted, formatted]
+      [label, *([formatted] * 4)]
     end
     private_class_method :memory_row
 
@@ -56,7 +68,7 @@ module RailsConsoleBenchmark
       units = %w[B KB MB GB]
       exp = (Math.log(bytes) / Math.log(1024)).floor
       exp = [exp, units.length - 1].min
-      format('%.2f %s', bytes.to_f / (1024**exp), units[exp])
+      format('%<value>.2f %<unit>s', value: bytes.to_f / (1024**exp), unit: units[exp])
     end
     private_class_method :format_bytes
   end
