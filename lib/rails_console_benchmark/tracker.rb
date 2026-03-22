@@ -3,6 +3,7 @@
 require 'memory_profiler'
 
 module RailsConsoleBenchmark
+  # Measures wall time, SQL query counts, and memory usage for a block of code.
   class Tracker
     def self.measure(iterations = 1, &block)
       raise ArgumentError, 'iterations must be >= 1' if iterations < 1

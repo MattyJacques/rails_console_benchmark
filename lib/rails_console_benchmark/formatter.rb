@@ -3,6 +3,7 @@
 require 'terminal-table'
 
 module RailsConsoleBenchmark
+  # Formats and displays benchmark results as a table in the console.
   class Formatter
     def self.display(result)
       wall_times = result[:wall_times_ms]
