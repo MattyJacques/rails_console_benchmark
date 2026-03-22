@@ -9,7 +9,9 @@ Gem::Specification.new do |spec|
   spec.email = ['matty.jacques@proton.me']
 
   spec.summary = 'Profile Ruby/Rails console block execution: wall time, SQL query count, and memory usage.'
-  spec.description = 'A gem that measures block execution time, database query counts (when ActiveRecord is present), and memory allocation, displaying results in a formatted terminal table. Works in plain Ruby and Rails projects alike.'
+  spec.description = 'A gem that measures block execution time, database query counts ' \
+                     '(when ActiveRecord is present), and memory allocation, displaying results in a formatted ' \
+                     'terminal table. Works in plain Ruby and Rails projects alike.'
   spec.homepage = 'https://github.com/MattyJacques/rails_console_benchmark'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.2.0'
