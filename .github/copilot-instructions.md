@@ -106,3 +106,11 @@ it 'only runs memory profiling on the first iteration'
 - Classes go under the `RailsConsoleBenchmark` module namespace.
 - Private helper methods are preferred over inline complexity.
 - Keep `Tracker` and `Formatter` responsibilities separate – `Tracker` must not format output, `Formatter` must not measure anything.
+
+## After Making Changes
+
+Always run RuboCop after editing any Ruby file and fix all offences before finishing:
+
+```bash
+bundle exec rubocop
+```
