@@ -30,9 +30,19 @@ module RailsConsoleBenchmark
 
     def collect_measurements(&block)
       results = (0...@iterations).map { |i| run_iteration(i, &block) }
-      wall_times = results.map { |wt, *| (wt * 1000).round(3) }
-      sql_counts = results.map { |_wt, sql, *| sql }
-      [wall_times, @track_sql ? sql_counts : nil, results.first.last]
+      [wall_times(results), sql_counts(results), memory_report(results)]
+    end
+
+    def wall_times(results)
+      results.map { |wt, *| (wt * 1000).round(3) }
+    end
+
+    def sql_counts(results)
+      @track_sql ? results.map { |_wt, sql, *| sql } : nil
+    end
+
+    def memory_report(results)
+      results.first.last
     end
 
     def run_iteration(index, &block)
