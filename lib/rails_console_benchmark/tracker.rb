@@ -5,8 +5,8 @@ require 'memory_profiler'
 module RailsConsoleBenchmark
   # Measures wall time, SQL query counts, and memory usage for a block of code.
   class Tracker
-    def self.measure(iterations = 1, &block)
-      new(iterations).measure(&block)
+    def self.measure(iterations = 1, &)
+      new(iterations).measure(&)
     end
 
     def initialize(iterations = 1)
@@ -16,8 +16,8 @@ module RailsConsoleBenchmark
       @track_sql = defined?(ActiveSupport::Notifications)
     end
 
-    def measure(&block)
-      wall_times, sql_counts, memory_report = collect_measurements(&block)
+    def measure(&)
+      wall_times, sql_counts, memory_report = collect_measurements(&)
       RailsConsoleBenchmark::Formatter.display(
         wall_times_ms: wall_times,
         sql_queries: sql_counts,
