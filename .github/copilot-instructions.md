@@ -114,3 +114,31 @@ Always run RuboCop after editing any Ruby file and fix all offences before finis
 ```bash
 bundle exec rubocop
 ```
+
+### CHANGELOG
+
+Update `CHANGELOG.md` whenever a user-facing change is made (new feature, bug fix, deprecation, breaking change, or notable internal change). Add an entry under the `[Unreleased]` section following the [Keep a Changelog](https://keepachangelog.com) format:
+
+- **Added** – new features
+- **Changed** – changes to existing behaviour
+- **Deprecated** – soon-to-be removed features
+- **Removed** – features removed in this release
+- **Fixed** – bug fixes
+- **Security** – security fixes
+
+### README
+
+Update `README.md` if the change affects:
+
+- Public API (method signatures, module/class names)
+- Usage examples or installation instructions
+- Supported Ruby versions or dependencies
+- Configuration or behaviour visible to users
+
+### RBS
+
+Update `sig/rails_console_benchmark.rbs` if the change affects:
+
+- Public method signatures (`Tracker.measure`, `Formatter.display`)
+- New classes or modules added to the `RailsConsoleBenchmark` namespace
+- Changes to method parameters, return types, or the result hash shape
