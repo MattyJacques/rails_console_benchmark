@@ -1,4 +1,33 @@
 module RailsConsoleBenchmark
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  class Tracker
+    def self.measure: (?::Integer iterations) { () -> untyped } -> void
+
+    def initialize: (?::Integer iterations) -> void
+
+    def measure: () { () -> untyped } -> void
+
+    private
+
+    def collect_measurements: () { () -> untyped } -> [Array[Float], Array[Integer]?, untyped]
+
+    def wall_times: (Array[[Float, untyped, untyped]]) -> Array[Float]
+
+    def sql_counts: (Array[[Float, Integer?, untyped]]) -> Array[Integer]?
+
+    def memory_report: (Array[[Float, untyped, untyped]]) -> untyped
+
+    def run_iteration: (::Integer index) { () -> untyped } -> [Float, Integer?, untyped]
+
+    def with_sql_tracking: () { () -> untyped } -> [untyped, Integer?]
+
+    def timed_with_memory_profile: () { () -> untyped } -> [Float, untyped]
+
+    def start_time_and_call: () { () -> untyped } -> Float
+  end
+
+  module Formatter
+    def self.display: ({ wall_times_ms: Array[Float], sql_queries: Array[Integer]?, allocated_memory: Integer, retained_memory: Integer }) -> void
+  end
 end
