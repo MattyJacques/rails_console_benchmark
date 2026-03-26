@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.0.1] - 2026-03-26
+
 ### Added
 
 - `Tracker.measure` for profiling a block of Ruby/Rails code.
