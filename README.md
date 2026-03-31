@@ -9,6 +9,7 @@ A Ruby gem for profiling a block of code from the Rails (or plain Ruby) console.
 - **Memory allocation** — total allocated and retained memory reported via `memory_profiler`. Memory profiling runs on the first iteration only.
 - **Multi-iteration support** — run the block N times and get min/max/mean/total statistics.
 - **Rails-optional** — works in plain Ruby projects with no ActiveRecord dependency.
+- **Rails console auto-integration** — a Railtie makes `RailsConsoleBenchmark` available automatically in `rails console` when bundled in a Rails app.
 
 ## Installation
 
@@ -73,6 +74,15 @@ Example output:
 ### Without Rails / ActiveRecord
 
 When `ActiveSupport::Notifications` is not defined, the SQL Queries row displays `N/A`.
+
+### Rails console auto-integration
+
+When the gem is added to a Rails app's Gemfile, a Railtie automatically registers with Rails so `RailsConsoleBenchmark` is available in `rails console` without a manual `require`:
+
+```ruby
+# No require needed — just use it:
+RailsConsoleBenchmark::Tracker.measure { MyModel.all.to_a }
+```
 
 ## Requirements
 

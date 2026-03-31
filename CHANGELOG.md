@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- `RailsConsoleBenchmark::Railtie` for automatic Rails console integration. When the gem is bundled in a Rails app, `RailsConsoleBenchmark` is available in `rails console` without a manual `require`.
+
 ## [0.0.1] - 2026-03-26
 
 ### Added
